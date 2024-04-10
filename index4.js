@@ -1,0 +1,34 @@
+import express from "express";
+import bodyParser from "body-parser";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+let nameAdd= "";
+
+const app = express();
+const port = 3000;
+let abc='';
+app.use(bodyParser.urlencoded({extended: true}));
+
+
+function abcNameGenerator(req, res, next){
+   abc= req.body["street"] + req.body[" pet"];
+   next();
+}
+
+app.use(abcNameGenerator);
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+})
+
+app.post('/submit', (req, res) => {
+  res.send (abc);
+})
+
+
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
